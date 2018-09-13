@@ -21,6 +21,37 @@ function SelectLanguage(props) {
   );
 }
 
+function RepoGrid(props) {
+  return (
+    <ul className="popular-list">
+      {props.repos.map(function(repo, index) {
+        return (
+          <li key={repo.name} className="popular-item">
+            <div className="popular-rank">#{index + 1}</div>
+            <ul className="space-list-items">
+              <li>
+                <img
+                  className="avatar"
+                  src={repo.owner.avatar_url}
+                  alt={'Avatar for ' + repo.owner.login}
+                />
+              </li>
+              <li>
+                <a href={repo.html_url}>{repo.name}</a>
+              </li>
+              <li>@{repo.owner.login}</li>
+              <li>{repo.stargazers_count} stars</li>
+            </ul>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+RepoGrid.propTypes = {
+  repos: PropTypes.array.isRequired
+};
 SelectLanguage.propTypes = {
   selectedLanguage: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired
@@ -37,12 +68,11 @@ class Popular extends React.Component {
     this.updateLanguage = this.updateLanguage.bind(this);
   }
   //lifecyle event
-  //compoentnDidMount going to be invoked by react when the component shown to the view (mount to the screen)
+  //componentDidMount going to be invoked by react when the component shown to the view (mount to the screen)
   //inside this component is gonig to be where you make your ajax requests
   componentDidMount() {
-    api.fetchPopularRepos(this.state.selectedLanguage).then(function(repos) {
-      console.log(repos);
-    });
+    //invoke the update langauge method and pass it whatever the selected language
+    this.updateLanguage(this.state.selectedLanguage);
   }
   updateLanguage(lang) {
     this.setState(function() {
@@ -50,6 +80,17 @@ class Popular extends React.Component {
         selectedLanguage: lang
       };
     });
+
+    api.fetchPopularRepos(lang).then(
+      function(repos) {
+        //we creating a new function here, so the this keyword is going to be different and thus we need to bind it to make sure the context is consistent
+        this.setState(function() {
+          return {
+            repos: repos
+          };
+        });
+      }.bind(this)
+    );
   }
   render() {
     return (
@@ -58,6 +99,12 @@ class Popular extends React.Component {
           selectedLanguage={this.state.selectedLanguage}
           onSelect={this.updateLanguage}
         />
+        {/* we rendering the component even before the request responded to fix that we can add a condition */}
+        {!this.state.repos ? (
+          <p>Loading</p>
+        ) : (
+          <RepoGrid repos={this.state.repos} />
+        )}
       </div>
     );
   }
