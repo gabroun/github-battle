@@ -27,3 +27,28 @@ li {
   cursor: pointer;
   font-weight: bold;
 }
+
+.popular-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.popular-item {
+  text-align: center;
+  margin: 20px;
+}
+
+.space-list-items {
+  margin-bottom: 7px;
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 150px;
+}
+
+.popular-rank {
+  font-size: 20px;
+  margin: 10px;
+}
