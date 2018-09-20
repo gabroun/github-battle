@@ -10,6 +10,7 @@ class PlayerInput extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(event) {
@@ -21,9 +22,16 @@ class PlayerInput extends React.Component {
       };
     });
   }
+
+  handleSubmit(event) {
+    // as we dont want the form to submit to the server without anything
+    event.preventDefault();
+
+    this.props.onSubmit(this.props.id, this.state.username);
+  }
   render() {
     return (
-      <form className="column">
+      <form className="column" onSubmit={this.handleSubmit}>
         <label className="header" htmlFor="username">
           {this.props.label}
         </label>
@@ -36,6 +44,13 @@ class PlayerInput extends React.Component {
           value={this.state.username}
           onChange={this.handleChange}
         />
+        <button
+          className="button"
+          type="submit"
+          disabled={!this.state.username}
+        >
+          Submit
+        </button>
       </form>
     );
   }
