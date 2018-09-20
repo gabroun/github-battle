@@ -96,3 +96,35 @@ a {
 .button:active {
   transform: translateY(1px);
 }
+
+.row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  align-items: center;
+}
+
+.column input {
+  border-radius: 3px;
+  margin: 10px 0;
+  padding: 5px;
+  font-size: 16px;
+  width: 80%;
+  border: 1px solid rgba(0, 0, 0, 0.43);
+}
+.column label {
+  text-align: center;
+  font-weight: 300;
+  font-size: 30px;
+}
+
+.header {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 200;
+}
