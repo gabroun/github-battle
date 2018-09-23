@@ -57,7 +57,7 @@ class Results extends React.Component {
   }
   componentDidMount() {
     var players = queryString.parse(this.props.location.search);
-    api.battle([players.playerOneName, players.playerTowName]).then(
+    api.battle([players.playerOneName, players.playerTwoName]).then(
       function(results) {
         if (results === null) {
           return this.setState(function() {
