@@ -9,7 +9,7 @@ function getProfile(username) {
   //and with promises the following will return us an object
   return (
     axios
-      .get('https://api.github.com/users/' + username)
+      .get('https://api.github.com/users/' + username + params)
       //when making requestion to external api its not going to return us the response immediately so by using axios we telling the app to asynchronousely to call the api and once its been returned then to invoke the function and pass us whatever the information
       .then(function(user) {
         return user.data;
@@ -19,7 +19,11 @@ function getProfile(username) {
 
 function getRepos(username) {
   return axios.get(
-    'https://api.github.com/users/' + username + '/repos' + '&per_page=100'
+    'https://api.github.com/users/' +
+      username +
+      '/repos' +
+      params +
+      '&per_page=100'
   );
 }
 
