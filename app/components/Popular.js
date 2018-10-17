@@ -51,11 +51,11 @@ function RepoGrid(props) {
 }
 
 RepoGrid.propTypes = {
-  repos: PropTypes.array.isRequired
+  repos: PropTypes.array.isRequired,
 };
 SelectLanguage.propTypes = {
   selectedLanguage: PropTypes.string.isRequired,
-  onSelect: PropTypes.func.isRequired
+  onSelect: PropTypes.func.isRequired,
 };
 
 class Popular extends React.Component {
@@ -63,7 +63,7 @@ class Popular extends React.Component {
     super(props);
     this.state = {
       selectedLanguage: 'All',
-      repos: null
+      repos: null,
     };
 
     this.updateLanguage = this.updateLanguage.bind(this);
@@ -78,7 +78,7 @@ class Popular extends React.Component {
   updateLanguage(lang) {
     this.setState(function() {
       return {
-        selectedLanguage: lang
+        selectedLanguage: lang,
       };
     });
 
@@ -87,7 +87,7 @@ class Popular extends React.Component {
         //we creating a new function here, so the this keyword is going to be different and thus we need to bind it to make sure the context is consistent
         this.setState(function() {
           return {
-            repos: repos
+            repos: repos,
           };
         });
       }.bind(this)
