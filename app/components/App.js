@@ -1,4 +1,4 @@
-const React = require('react');
+import React from 'react';
 const ReactRouter = require('react-router-dom');
 const Router = ReactRouter.BrowserRouter;
 const Route = ReactRouter.Route;
