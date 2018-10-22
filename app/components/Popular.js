@@ -80,12 +80,11 @@ class Popular extends React.Component {
 
     api.fetchPopularRepos(lang).then(repos => {
       //we creating a new function here, so the this keyword is going to be different and thus we need to bind it to make sure the context is consistent
-      this.setState(() => ({ repos: repos }));
+      this.setState(() => ({ repos }));
     });
   }
   render() {
-    const { selectedLanguage } = this.state;
-    const { repos } = this.state;
+    const { selectedLanguage, repos } = this.state;
     return (
       <div>
         <SelectLanguage
