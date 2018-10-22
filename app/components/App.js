@@ -6,8 +6,8 @@ const Switch = ReactRouter.Switch;
 import Nav from './Nav';
 import Home from './Home';
 import Popular from './Popular';
-import Battle from './Battle';
 import Results from './Results';
+import Battle from './Battle';
 
 class App extends React.Component {
   render() {
