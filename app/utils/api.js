@@ -53,24 +53,23 @@ function sortPlayer(players) {
   return players.sort((a, b) => b.score - a.score);
 }
 
-//anytime we going to interact with external api inside this project, we going to have a bunce of methods in this object in order to do that
-module.exports = {
-  battle(players) {
-    return Promise.all(players.map(getUserData))
-      .then(sortPlayer)
-      .catch(handleError);
-  },
-  fetchPopularRepos(language) {
-    var encodedURI = window.encodeURI(
-      `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`
-    );
+//anytime we going to interact with external api inside this project, we going to have a bunch of methods in this object in order to do that
+export function battle(players) {
+  return Promise.all(players.map(getUserData))
+    .then(sortPlayer)
+    .catch(handleError);
+}
 
-    //this going to return us a promise
-    return (
-      axios
-        .get(encodedURI)
-        //this going to be invoked when the request to the specific url has been resolved and finished to be passed the response and then we going to return response.data.items
-        .then(({ data }) => data.items)
-    );
-  },
-};
+export function fetchPopularRepos(language) {
+  const encodedURI = window.encodeURI(
+    `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`
+  );
+
+  //this going to return us a promise
+  return (
+    axios
+      .get(encodedURI)
+      //this going to be invoked when the request to the specific url has been resolved and finished to be passed the response and then we going to return response.data.items
+      .then(({ data }) => data.items)
+  );
+}

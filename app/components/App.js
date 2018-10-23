@@ -1,8 +1,5 @@
 import React from 'react';
-const ReactRouter = require('react-router-dom');
-const Router = ReactRouter.BrowserRouter;
-const Route = ReactRouter.Route;
-const Switch = ReactRouter.Switch;
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Nav from './Nav';
 import Home from './Home';
 import Popular from './Popular';

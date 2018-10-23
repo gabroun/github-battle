@@ -18,4 +18,4 @@ PlayerPreview.propTypes = {
   avatar: PropTypes.string.isRequired,
 };
 
-module.exports = PlayerPreview;
+export default PlayerPreview;

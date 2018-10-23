@@ -105,7 +105,6 @@ a {
 .column {
   display: flex;
   flex-direction: column;
-  width: 500px;
   align-items: center;
 }
 
@@ -117,6 +116,7 @@ a {
   width: 80%;
   border: 1px solid rgba(0, 0, 0, 0.43);
 }
+
 .column label {
   text-align: center;
   font-weight: 300;

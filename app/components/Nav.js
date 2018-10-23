@@ -1,7 +1,7 @@
-var React = require('react');
+import React from 'react';
 
 //navlink to used if you want to dynamically change the style of route if its active
-var NavLink = require('react-router-dom').NavLink;
+import { NavLink } from 'react-router-dom';
 
 function Nav() {
   return (
@@ -26,4 +26,4 @@ function Nav() {
   );
 }
 
-module.exports = Nav;
+export default Nav;

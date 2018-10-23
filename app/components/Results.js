@@ -1,6 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
-import api from '../utils/api';
+import { battle } from '../utils/api';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PlayerPreview from './PlayerPreview';
@@ -59,21 +59,17 @@ Player.propTypers = {
   profile: PropTypes.object.isRequired,
 };
 class Results extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      winner: null,
-      loser: null,
-      error: null,
-      loading: true,
-    };
-  }
+  state = {
+    winner: null,
+    loser: null,
+    error: null,
+    loading: true,
+  };
   componentDidMount() {
     const { playerOneName, playerTwoName } = queryString.parse(
       this.props.location.search
     );
-    api.battle([playerOneName, playerTwoName]).then(results => {
+    battle([playerOneName, playerTwoName]).then(results => {
       if (results === null) {
         return this.setState(() => ({
           error:
@@ -114,4 +110,4 @@ class Results extends React.Component {
   }
 }
 
-module.exports = Results;
+export default Results;

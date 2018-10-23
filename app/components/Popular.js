@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-const api = require('../utils/api');
-const Loading = require('./Loading');
+import { fetchPopularRepos } from '../utils/api';
+import Loading from './Loading';
 
 function SelectLanguage({ selectedLanguage, onSelect }) {
   var languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
@@ -59,15 +59,10 @@ SelectLanguage.propTypes = {
 };
 
 class Popular extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedLanguage: 'All',
-      repos: null,
-    };
-
-    this.updateLanguage = this.updateLanguage.bind(this);
-  }
+  state = {
+    selectedLanguage: 'All',
+    repos: null,
+  };
   //lifecyle event
   //componentDidMount going to be invoked by react when the component shown to the view (mount to the screen)
   //inside this component is gonig to be where you make your ajax requests
@@ -75,14 +70,14 @@ class Popular extends React.Component {
     //invoke the update langauge method and pass it whatever the selected language
     this.updateLanguage(this.state.selectedLanguage);
   }
-  updateLanguage(lang) {
+  updateLanguage = lang => {
     this.setState(() => ({ selectedLanguage: lang }));
 
-    api.fetchPopularRepos(lang).then(repos => {
+    fetchPopularRepos(lang).then(repos => {
       //we creating a new function here, so the this keyword is going to be different and thus we need to bind it to make sure the context is consistent
       this.setState(() => ({ repos }));
     });
-  }
+  };
   render() {
     const { selectedLanguage, repos } = this.state;
     return (
@@ -102,4 +97,4 @@ class Popular extends React.Component {
   }
 }
 
-module.exports = Popular;
+export default Popular;
