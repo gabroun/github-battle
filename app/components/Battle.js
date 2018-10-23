@@ -4,29 +4,28 @@ import { Link } from 'react-router-dom';
 import PlayerPreview from './PlayerPreview';
 
 class PlayerInput extends React.Component {
-  constructor(props) {
-    super(props);
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+  };
 
-    this.state = {
-      username: '',
-    };
+  state = {
+    username: '',
+  };
 
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event) {
+  handleChange = event => {
     const value = event.target.value;
 
     this.setState(() => ({ username: value }));
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     // as we dont want the form to submit to the server without anything
     event.preventDefault();
 
     this.props.onSubmit(this.props.id, this.state.username);
-  }
+  };
   render() {
     const { username } = this.state;
     const { label } = this.props;
@@ -52,28 +51,15 @@ class PlayerInput extends React.Component {
   }
 }
 
-PlayerInput.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-};
-
 class Battle extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    playerOneName: '',
+    playerTwoName: '',
+    playerOneImage: null,
+    playerTwoImage: null,
+  };
 
-    this.state = {
-      playerOneName: '',
-      playerTwoName: '',
-      playerOneImage: null,
-      playerTwoImage: null,
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleReset = this.handleReset.bind(this);
-  }
-
-  handleSubmit(id, username) {
+  handleSubmit = (id, username) => {
     //as we using this keyword in the function we need to bind in the constructor
     //we want this keyword in the function to always refer to our instance in the constructor which is the component
     //setState will return an object
@@ -81,14 +67,14 @@ class Battle extends React.Component {
       [id + 'Name']: username,
       [id + 'Image']: `https://github.com/${username}.png?size=200`,
     }));
-  }
+  };
 
-  handleReset(id) {
+  handleReset = id => {
     this.setState(() => ({
       [id + 'Name']: '',
       [id + 'Image']: null,
     }));
-  }
+  };
 
   render() {
     var { match } = this.props;
