@@ -1,6 +1,6 @@
 import React from 'react';
 import queryString from 'query-string';
-import api from '../utils/api';
+import { battle } from '../utils/api';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import PlayerPreview from './PlayerPreview';
@@ -73,7 +73,7 @@ class Results extends React.Component {
     const { playerOneName, playerTwoName } = queryString.parse(
       this.props.location.search
     );
-    api.battle([playerOneName, playerTwoName]).then(results => {
+    battle([playerOneName, playerTwoName]).then(results => {
       if (results === null) {
         return this.setState(() => ({
           error:
@@ -114,4 +114,4 @@ class Results extends React.Component {
   }
 }
 
-module.exports = Results;
+export default Results;

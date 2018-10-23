@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-const api = require('../utils/api');
-const Loading = require('./Loading');
+import { fetchPopularRepos } from '../utils/api';
+import Loading from './Loading';
 
 function SelectLanguage({ selectedLanguage, onSelect }) {
   var languages = ['All', 'JavaScript', 'Ruby', 'Java', 'CSS', 'Python'];
@@ -78,7 +78,7 @@ class Popular extends React.Component {
   updateLanguage(lang) {
     this.setState(() => ({ selectedLanguage: lang }));
 
-    api.fetchPopularRepos(lang).then(repos => {
+    fetchPopularRepos(lang).then(repos => {
       //we creating a new function here, so the this keyword is going to be different and thus we need to bind it to make sure the context is consistent
       this.setState(() => ({ repos }));
     });
@@ -102,4 +102,4 @@ class Popular extends React.Component {
   }
 }
 
-module.exports = Popular;
+export default Popular;
