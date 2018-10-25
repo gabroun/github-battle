@@ -1,28 +1,27 @@
-import axios from 'axios';
-
 const id = 'your_client_id';
 const secret = 'your_secret_id';
 const params = `?client_id=${id}&client_secret=${secret}`;
 
-function getProfile(username) {
+async function getProfile(username) {
   //so the following will make a get request to github api and axios return us a promise
   //and with promises the following will return us an object
-  return (
-    axios
-      .get(`https://api.github.com/users/${username}${params}`)
-      //when making requestion to external api its not going to return us the response immediately so by using axios we telling the app to asynchronousely to call the api and once its been returned then to invoke the function and pass us whatever the information
-      .then(({ data }) => data)
+  const response = await fetch(
+    `https://api.github.com/users/${username}${params}`
   );
+  //when making requestion to external api its not going to return us the response immediately so by using axios we telling the app to asynchronousely to call the api and once its been returned then to invoke the function and pass us whatever the information
+  return response.json;
 }
 
-function getRepos(username) {
-  return axios.get(
+async function getRepos(username) {
+  const response = await fetch(
     `https://api.github.com/users/${username}/repos${params}&per_page=100`
   );
+  return response.json();
 }
 
 function getStars(repos) {
-  return repos.data.reduce(
+  console.log(repos);
+  return repos.reduce(
     (count, { stargazers_count }) => count + stargazers_count,
     0
   );
@@ -39,14 +38,17 @@ function handleError(error) {
   return null;
 }
 
-function getUserData(player) {
-  //takes in an array of promises, once they are all resolved then it going to call the function
-  return Promise.all([getProfile(player), getRepos(player)]).then(
-    ([profile, repos]) => ({
-      profile,
-      score: calculateScore(profile, repos),
-    })
-  );
+async function getUserData(player) {
+  //takes in an array of promises, once they are all resolved then it going to return object
+  const [profile, repos] = await Promise.all([
+    getProfile(player),
+    getRepos(player),
+  ]);
+
+  return {
+    profile,
+    score: calculateScore(profile, repos),
+  };
 }
 
 function sortPlayer(players) {
@@ -54,22 +56,20 @@ function sortPlayer(players) {
 }
 
 //anytime we going to interact with external api inside this project, we going to have a bunch of methods in this object in order to do that
-export function battle(players) {
-  return Promise.all(players.map(getUserData))
-    .then(sortPlayer)
-    .catch(handleError);
+export async function battle(players) {
+  const results = await Promise.all(players.map(getUserData)).catch(
+    handleError
+  );
+  return results === null ? results : sortPlayer(results);
 }
 
-export function fetchPopularRepos(language) {
+export async function fetchPopularRepos(language) {
   const encodedURI = window.encodeURI(
     `https://api.github.com/search/repositories?q=stars:>1+language:${language}&sort=stars&order=desc&type=Repositories`
   );
-
   //this going to return us a promise
-  return (
-    axios
-      .get(encodedURI)
-      //this going to be invoked when the request to the specific url has been resolved and finished to be passed the response and then we going to return response.data.items
-      .then(({ data }) => data.items)
-  );
+  const response = await fetch(encodedURI).catch(handleError);
+  const repos = await response.json();
+  //this going to be invoked when the request to the specific url has been resolved and finished to be passed the response and then we going to return response.data.items
+  return repos.items;
 }

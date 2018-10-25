@@ -70,13 +70,13 @@ class Popular extends React.Component {
     //invoke the update langauge method and pass it whatever the selected language
     this.updateLanguage(this.state.selectedLanguage);
   }
-  updateLanguage = lang => {
+  updateLanguage = async lang => {
     this.setState(() => ({ selectedLanguage: lang }));
 
-    fetchPopularRepos(lang).then(repos => {
-      //we creating a new function here, so the this keyword is going to be different and thus we need to bind it to make sure the context is consistent
-      this.setState(() => ({ repos }));
-    });
+    const repos = await fetchPopularRepos(lang);
+
+    //we creating a new function here, so the this keyword is going to be different and thus we need to bind it to make sure the context is consistent
+    this.setState(() => ({ repos }));
   };
   render() {
     const { selectedLanguage, repos } = this.state;
